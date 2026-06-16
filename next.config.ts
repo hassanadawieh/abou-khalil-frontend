@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-const API_URL = process.env.API_URL ?? "http://192.168.0.101:6000";
+const API_URL = process.env.API_URL ?? "http://185.182.9.99:6000";
 const nextConfig: NextConfig = {
   async rewrites() {
     return [
