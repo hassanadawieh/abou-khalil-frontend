@@ -7,6 +7,53 @@ body {
   padding: 0;
 }
 
+@media (max-width: 47.99em) {
+  .sidebar-root {
+    overflow: hidden;
+  }
+
+  .sidebar-header {
+    padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm) !important;
+  }
+
+  .sidebar-header > div {
+    margin-top: 4px !important;
+  }
+
+  .sidebar-username {
+    font-size: var(--mantine-font-size-md) !important;
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 4px var(--mantine-spacing-xs) !important;
+  }
+
+  .sidebar-nav-link {
+    padding-block: 5px !important;
+    margin-bottom: 0 !important;
+    font-size: var(--mantine-font-size-sm);
+  }
+
+  .sidebar-nav-link .mantine-NavLink-section svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .sidebar-footer {
+    padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm) !important;
+  }
+
+  .sidebar-footer .mantine-Button-root {
+    min-height: 34px;
+    height: 34px;
+    padding-block: 0;
+  }
+}
+
 @media (min-width: 768px) {
   .invoice-form-grid {
     grid-template-columns: 1fr 380px !important;

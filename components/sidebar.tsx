@@ -7,9 +7,6 @@ import {
   Text,
   Button,
   Box,
-  Title,
-  Image,
-  Group,
 } from "@mantine/core";
 import {
   IconDashboard,
@@ -62,7 +59,7 @@ const usersNavItem = {
   icon: IconUserCog,
 };
 
-export default function Sidebar() {
+export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
   const router = useRouter();
   const { user, logout } = useAuthStore();
@@ -83,18 +80,22 @@ export default function Sidebar() {
     router.push("/login");
   };
 
-  console.log("testing user:", user);
+  const handleNavClick = (href: string) => {
+    router.push(href);
+    onNavigate?.();
+  };
 
   return (
     <Box
+      className="sidebar-root"
       style={{
         display: "flex",
         flexDirection: "column",
         height: "100%",
       }}
     >
-      <Box p="md">
-        <Text size="xl" c="dimmed" ta="center" fw={500}>
+      <Box p="md" className="sidebar-header">
+        <Text size="xl" c="dimmed" ta="center" fw={500} className="sidebar-username">
           {user?.username || "مستخدم"}
         </Text>
         <div style={{ marginTop: 8 }}>
@@ -103,28 +104,32 @@ export default function Sidebar() {
       </Box>
       <Divider />
 
-      <Box p="xs" style={{ flex: 1 }}>
+      <Box p="xs" className="sidebar-nav">
         {navItems.map((item) => (
           <NavLink
             key={item.href}
             label={item.label}
             leftSection={<item.icon size={20} />}
             active={pathname === item.href}
-            onClick={() => router.push(item.href)}
+            onClick={() => handleNavClick(item.href)}
             variant="light"
             mb={2}
+            className="sidebar-nav-link"
             style={{ borderRadius: 8 }}
           />
         ))}
       </Box>
 
       <Divider />
-      <Box p="md">
+      <Box p="md" className="sidebar-footer">
         <Button
           variant="subtle"
           color="red"
           leftSection={<IconLogout size={18} />}
-          onClick={handleLogout}
+          onClick={() => {
+            handleLogout();
+            onNavigate?.();
+          }}
           fullWidth
           justify="start"
         >

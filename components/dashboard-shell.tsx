@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useRef } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import {
   AppShell,
@@ -25,12 +25,24 @@ export default function DashboardShell({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const pathname = usePathname();
   const token = useAuthStore((s) => s.token);
   const user = useAuthStore((s) => s.user);
   const hydrated = useAuthStore((s) => s.hydrated);
   const hydrateFromStorage = useAuthStore((s) => s.hydrateFromStorage);
   const setUser = useAuthStore((s) => s.setUser);
-  const [opened, { toggle }] = useDisclosure();
+  const [opened, { toggle, close }] = useDisclosure();
+  const navbarRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (opened) {
+      navbarRef.current?.scrollTo({ top: 0 });
+    }
+  }, [opened]);
+
+  useEffect(() => {
+    close();
+  }, [pathname, close]);
 
   useEffect(() => {
     hydrateFromStorage();
@@ -102,8 +114,8 @@ export default function DashboardShell({
         </Group>
       </AppShell.Header>
 
-      <AppShell.Navbar>
-        <Sidebar />
+      <AppShell.Navbar ref={navbarRef}>
+        <Sidebar onNavigate={close} />
       </AppShell.Navbar>
 
       <AppShell.Main>{children}</AppShell.Main>
